@@ -1098,7 +1098,7 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
 
     const templateParams = {
-      to_email: 'kotasumedh@gmail.com',
+      to_email: 'info@artesiadesigns.com',
       from_name: name,
       from_email: email,
       message: emailBody
