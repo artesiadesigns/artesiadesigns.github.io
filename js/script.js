@@ -1227,3 +1227,150 @@ document.addEventListener('DOMContentLoaded', function() {
   // Start the automatic cycling
   startAutoPlay();
 });
+
+// Mobile Navigation Toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+  const navList = document.querySelector('header nav ul');
+
+  if (mobileNavToggle && navList) {
+    mobileNavToggle.addEventListener('click', function() {
+      navList.classList.toggle('show');
+      this.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!navList.contains(e.target) && !mobileNavToggle.contains(e.target) && navList.classList.contains('show')) {
+        navList.classList.remove('show');
+        mobileNavToggle.classList.remove('active');
+      }
+    });
+
+    // Close menu when clicking a link
+    navList.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navList.classList.remove('show');
+        mobileNavToggle.classList.remove('active');
+      });
+    });
+  }
+});
+
+// Custom Order Modal Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const customOrderBtn = document.getElementById('custom-order-btn');
+  const customOrderModal = document.getElementById('custom-order-modal');
+  const closeCustomOrder = document.querySelector('.close-custom-order');
+  const customOrderForm = document.getElementById('custom-order-form');
+  const fileUpload = document.getElementById('file-upload');
+  const fileInput = document.getElementById('inspiration-file');
+
+  if (customOrderBtn && customOrderModal) {
+    customOrderBtn.addEventListener('click', () => {
+      customOrderModal.style.display = 'block';
+      setTimeout(() => {
+        customOrderModal.querySelector('.custom-order-modal-content').style.transform = 'scale(1)';
+        customOrderModal.querySelector('.custom-order-modal-content').style.opacity = '1';
+      }, 10);
+    });
+
+    closeCustomOrder.addEventListener('click', () => {
+      customOrderModal.querySelector('.custom-order-modal-content').style.transform = 'scale(0.7)';
+      customOrderModal.querySelector('.custom-order-modal-content').style.opacity = '0';
+      setTimeout(() => {
+        customOrderModal.style.display = 'none';
+      }, 300);
+    });
+
+    customOrderModal.addEventListener('click', (e) => {
+      if (e.target === customOrderModal) {
+        closeCustomOrder.click();
+      }
+    });
+
+    // File upload handling
+    fileUpload.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (file) {
+        const fileName = file.name;
+        fileUpload.querySelector('p').textContent = `Selected file: ${fileName}`;
+      }
+    });
+
+    // Drag and drop functionality
+    fileUpload.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      fileUpload.style.borderColor = '#796652';
+      fileUpload.style.background = '#f9f5f1';
+    });
+
+    fileUpload.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      fileUpload.style.borderColor = '#C4A484';
+      fileUpload.style.background = 'transparent';
+    });
+
+    fileUpload.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        fileInput.files = e.dataTransfer.files;
+        fileUpload.querySelector('p').textContent = `Selected file: ${file.name}`;
+      }
+      fileUpload.style.borderColor = '#C4A484';
+      fileUpload.style.background = 'transparent';
+    });
+
+    // Form submission
+    customOrderForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(customOrderForm);
+      const name = document.getElementById('custom-name').value;
+      const email = document.getElementById('custom-email').value;
+      const phone = document.getElementById('custom-phone').value;
+      const description = document.getElementById('custom-description').value;
+      const file = fileInput.files[0];
+
+      // Create email body
+      const emailBody = `
+        Custom Order Request
+
+        Name: ${name}
+        Email: ${email}
+        Phone: ${phone}
+
+        Description:
+        ${description}
+
+        ${file ? `Inspiration file attached: ${file.name}` : 'No inspiration file attached'}
+      `;
+
+      // Send email using EmailJS
+      const templateParams = {
+        to_email: 'info@artesiadesigns.com',
+        from_name: name,
+        from_email: email,
+        message: emailBody,
+        attachment: file
+      };
+
+      emailjs.send('service_s571exl', 'template_1tcjrli', templateParams)
+        .then(() => {
+          alert('Your custom order request has been sent successfully! We will contact you soon.');
+          customOrderForm.reset();
+          fileUpload.querySelector('p').textContent = 'Click to upload or drag and drop';
+          closeCustomOrder.click();
+        })
+        .catch((error) => {
+          console.error('Failed to send email:', error);
+          alert('Failed to send your request. Please try again or contact us directly.');
+        });
+    });
+  }
+});
