@@ -11,9 +11,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Rochester&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-      <div class="container">
-        <div class="logo_and_title">
+  <!-- Add announcement banner -->
+  <div class="announcement-banner">
+    <div class="announcement-content">
+      🎨 Custom designs available! Transform your space with personalized Lippan art pieces | Free consultation for custom orders | Each piece handcrafted with love | Contact us for your unique creation today! 🎨
+    </div>
+  </div>
+
+  <header>
+    <div class="container">
+      <!-- Add mobile navigation toggle -->
+      <button class="mobile-nav-toggle" id="mobile-nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="logo_and_title">
             <a href="index.html">
                 <img class="logo" src="images/logo2.png" alt="Artesia Designs Logo">
             </a>
@@ -22,7 +35,7 @@
           <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
-            <li><a href="shop.html" class="active">Shop</a></li>
+            <li><a href="shop.html" class="active">Gallery</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li class="cart-container">
               <button id="cart-btn" class="cart-btn">
@@ -38,7 +51,8 @@
           </ul>
         </nav>
       </div>
-    </header>
+    </div>
+  </header>
 
     <!-- Cart Modal -->
     <div id="cart-modal" class="cart-modal">
@@ -85,7 +99,15 @@
 
     <section class="shop-section">
         <div class="container">
-            <h2>Shop Our Collection</h2>
+            <h2>Our Collection</h2>
+            <!-- Add Custom Order Button -->
+            <div class="custom-order-btn" id="custom-order-btn">
+                <i class="fas fa-plus-circle"></i>
+                <div class="content">
+                    <h3>Create Your Custom Piece</h3>
+                    <p>Let us bring your vision to life with a personalized Lippan art creation</p>
+                </div>
+            </div>
             <div class="product-grid">
                 <div class="product" data-product-id="jharoka">
                     <img class="shop_image" src="images/Jharoka.png" alt="Jharoka">
@@ -207,7 +229,43 @@
             </div>
         </div>
     </section>
-      <footer>
+
+    <!-- Custom Order Modal -->
+    <div id="custom-order-modal" class="custom-order-modal">
+        <div class="custom-order-modal-content">
+            <span class="close-custom-order">&times;</span>
+            <h2>Create Your Custom Piece</h2>
+            <form class="custom-order-form" id="custom-order-form">
+                <div class="form-group">
+                    <label for="custom-name">Your Name</label>
+                    <input type="text" id="custom-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="custom-email">Email Address</label>
+                    <input type="email" id="custom-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="custom-phone">Phone Number</label>
+                    <input type="tel" id="custom-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="custom-description">Describe Your Vision</label>
+                    <textarea id="custom-description" required placeholder="Tell us about your desired piece, including size, colors, and any specific elements you'd like to incorporate..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Upload Inspiration (Optional)</label>
+                    <div class="file-upload" id="file-upload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload or drag and drop</p>
+                        <input type="file" id="inspiration-file" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <button type="submit" class="btn">Submit Custom Order Request</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
       <div class="container">
         <p>© 2025 Artesia Designs. All Rights Reserved.</p>
          <div class="social-links">
